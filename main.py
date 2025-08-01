@@ -1,4 +1,3 @@
-# main.py
 import os
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
@@ -7,7 +6,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import List, Dict, Any
 
-# Load environment variables from .env file
 load_dotenv()
 
 # --- Project Imports ---
@@ -25,10 +23,8 @@ app = FastAPI(
     description="Analyze manually entered resume details, generate skill tests, provide feedback, and recommend jobs using Gemini AI."
 )
 
-# Mount static files (CSS)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Configure Jinja2 templates
 templates = Jinja2Templates(directory="templates")
 
 # --- Initialize Services ---
