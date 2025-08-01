@@ -1,4 +1,3 @@
-# gemini_service.py
 import re
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -8,20 +7,17 @@ from typing import List, Dict, Any
 
 class GeminiService:
     def __init__(self, api_key: str):
-        # Initialize the LangChain Gemini model
         self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key )
         self.output_parser = StrOutputParser()
 
     async def generate_text(self, prompt: str) -> str:
         """Generates text using the Gemini model."""
         try:
-            # Using LangChain's invoke method for a simple text generation
             response = await self.llm.ainvoke(prompt)
              # Explicitly get the string content from the AIMessage object
             if hasattr(response, 'content'):
                 return response.content
             else:
-                # Fallback, though response.content is expected from ChatGoogleGenerativeAI
                 return self.output_parser.parse(response)
         except Exception as e:
             print(f"Error generating text with Gemini: {e}")
@@ -40,7 +36,7 @@ class GeminiService:
         )
         try:
             response_content = await self.generate_text(full_prompt)
-            # Attempt to parse the content. Gemini sometimes wraps JSON in markdown.
+            # Attempt to parse content. Gemini sometimes wraps JSON in markdown.
             json_match = re.search(r"```json\s*(.*?)\s*```", response_content, re.DOTALL)
             if json_match:
                 json_string = json_match.group(1).strip()
