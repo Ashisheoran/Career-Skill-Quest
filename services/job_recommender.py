@@ -1,10 +1,9 @@
-# job_recommender.py
 import re
 from services.gemini_service import GeminiService
 from models.pydantic_models import JobPosting
 from typing import List, Dict, Any
 from serpapi import GoogleSearch
-import json # Make sure json is imported here
+import json 
 
 class JobRecommender:
     def __init__(self, gemini_service: GeminiService, serpapi_api_key: str):
@@ -20,8 +19,8 @@ class JobRecommender:
                 "engine": "google_jobs",
                 "q": query,
                 "api_key": self.serpapi_api_key,
-                "location": "India", # Targeting India as per the original mock
-                "num": num_jobs # Number of results to fetch
+                "location": "India",
+                "num": num_jobs 
             }
             search = GoogleSearch(params)
             results = search.get_dict()
@@ -29,12 +28,11 @@ class JobRecommender:
             job_postings = []
             if "jobs_results" in results:
                 for idx, job in enumerate(results["jobs_results"]):
-                    # Ensure all required fields are present, use default empty string if not
                     title = job.get("title", "N/A")
                     company = job.get("company_name", "N/A")
                     location = job.get("location", "N/A")
                     description = job.get("description", "N/A")
-                    apply_link = job.get("job_link", job.get("direct_apply_link", "#")) # Prioritize job_link, then direct_apply_link
+                    apply_link = job.get("job_link", job.get("direct_apply_link", "#")) 
 
                     # SerpApi typically doesn't provide a unique 'id' like a simple number,
                     # so we'll generate one or use a hash of some unique fields if available.
@@ -46,7 +44,7 @@ class JobRecommender:
                             company=company,
                             location=location,
                             description=description,
-                            apply_link=apply_link # Add the apply_link here
+                            apply_link=apply_link 
                         )
                     )
             return job_postings
@@ -63,15 +61,11 @@ class JobRecommender:
         """
         search_query = f"{' '.join(skills)} developer jobs {experience_years} years experience in India"
 
-        # Step 1: Fetch jobs from real API based on a broad query
-        fetched_jobs = await self._fetch_real_job_postings(search_query, num_jobs=20) # Fetch more to filter down
+        fetched_jobs = await self._fetch_real_job_postings(search_query, num_jobs=20)
 
         if not fetched_jobs:
             return []
 
-        # Step 2: Use Gemini for semantic matching and filtering
-        # Prompt Engineering: Guide the LLM to act as a career advisor and filter the most relevant jobs.
-        # Ensure the prompt emphasizes the candidate's profile and job requirements.
         jobs_json_str = json.dumps([job.dict() for job in fetched_jobs]) # Convert Pydantic models to dicts for JSON
 
         prompt = (
@@ -111,10 +105,8 @@ class JobRecommender:
         }
 
         try:
-            # Generate structured response from Gemini based on the prompt and schema
             filtered_jobs_raw = await self.gemini_service.generate_structured_response(prompt, schema)
             
-            # Convert raw dicts back to JobPosting models for type safety
             recommended_jobs = [JobPosting(**job_data) for job_data in filtered_jobs_raw]
             return recommended_jobs
         except Exception as e:
