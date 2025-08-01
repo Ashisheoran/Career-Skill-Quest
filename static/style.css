@@ -1,15 +1,13 @@
-/* style.css */
-
 :root {
-    --primary-color: #4CAF50; /* A shade of green */
-    --secondary-color: #607D8B; /* Blue-grey */
-    --accent-color: #FFC107; /* Amber */
+    --primary-color: #4CAF50; 
+    --secondary-color: #607D8B;
+    --accent-color: #FFC107; 
     --text-color: #333;
     --light-text-color: #666;
     --background-color: #f4f7f6;
     --card-background: #ffffff;
     --border-color: #e0e0e0;
-    --shadow-color: rgba(0, 0, 0, 0.08);
+    --shadow-color: rgba(35, 193, 80, 0.3);
     --success-color: #28a745;
     --error-color: #dc3545;
     --info-color: #17a2b8;
@@ -88,7 +86,7 @@ h3 {
 
 .section.visible {
     opacity: 1;
-    max-height: 4000px; /* Increased to accommodate longer content, like tests */
+    max-height: 4000px; 
     margin-bottom: 25px;
 }
 
@@ -153,7 +151,7 @@ button {
 }
 
 button:hover {
-    background-color: #43A047; /* Darker primary */
+    background-color: #43A047; 
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -172,7 +170,7 @@ button i {
 }
 
 .go-back-btn:hover {
-    background-color: #546E7A; /* Darker secondary */
+    background-color: #546E7A; 
 }
 
 /* Multi-step Form Navigation */
@@ -243,7 +241,7 @@ button i {
 /* Radio Button Styling */
 .form-group input[type="radio"] {
     margin-right: 8px;
-    accent-color: var(--primary-color); /* Changes the color of the radio button itself */
+    accent-color: var(--primary-color);
 }
 
 .form-group label[for^="test-type"] {
@@ -273,7 +271,7 @@ button i {
 }
 
 #parsed-skills li {
-    background-color: #E8F5E9; /* Light green */
+    background-color: #E8F5E9; 
     color: var(--primary-color);
     padding: 6px 12px;
     border-radius: 20px;
@@ -320,9 +318,9 @@ button i {
 .coding-question-input textarea {
     width: 100%;
     min-height: 150px;
-    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; /* Good for code */
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; 
     font-size: 0.9em;
-    background-color: #272822; /* Dark background for code */
+    background-color: #272822; 
     color: #f8f8f2;
     border-radius: 6px;
     padding: 15px;
@@ -332,7 +330,7 @@ button i {
 
 /* Test Results Styling */
 .test-results-summary {
-    background-color: #e3f2fd; /* Light blue */
+    background-color: #e3f2fd; 
     border-left: 5px solid var(--secondary-color);
     padding: 15px 20px;
     border-radius: 8px;
@@ -359,7 +357,7 @@ button i {
 }
 
 .learning-path-card {
-    background-color: #e8f5e9; /* Light green */
+    background-color: #e8f5e9; 
     border-left: 4px solid var(--primary-color);
     padding: 15px;
     border-radius: 8px;
@@ -520,8 +518,8 @@ button i {
     color: var(--text-color);
     line-height: 1.5;
     margin-bottom: 15px;
-    max-height: 120px; /* Limit height for description */
-    overflow: auto;   /* Enable vertical scrolling */
+    max-height: 120px;
+    overflow: auto;   
     text-overflow: ellipsis;
 }
 
@@ -540,7 +538,7 @@ button i {
 }
 
 .job-card .apply-link-btn:hover {
-    background-color: #FFD740; /* Lighter amber */
+    background-color: #FFD740; 
     transform: translateY(-2px);
 }
 
