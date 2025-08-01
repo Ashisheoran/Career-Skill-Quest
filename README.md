@@ -1,91 +1,119 @@
-Career Skill Quest
-Career Skill Quest is an AI-powered platform designed to help users assess their skills, identify knowledge gaps, and receive tailored job recommendations. The application analyzes a user's resume data, generates a custom skill assessment test, provides detailed feedback, suggests learning resources, and recommends suitable job postings.
+# Career Skill Quest
 
-The backend is built with FastAPI and Python, utilizing the Gemini AI model for generating dynamic content. The frontend is a simple, single-page application built with HTML, CSS, and JavaScript.
+Career Skill Quest is a modern, AI-powered platform designed to help users advance their careers by assessing skills, identifying knowledge gaps, and receiving personalized job recommendations. The platform leverages the Gemini AI model to analyze user resumes, generate tailored skill tests, provide detailed feedback, and suggest actionable learning paths and job opportunities.
 
-Features
-Resume Analysis: Users can manually input their resume details, including experience, education, and skills.
+---
 
-Skill Assessment Test: The application generates a multiple-choice skill test based on the user's provided skills and experience level.
+## 🚀 Features
 
-AI-Powered Feedback: After the test, the system provides detailed feedback, highlighting strengths and weaknesses.
+- **Resume Analysis:** Users input their skills, experience, and education for in-depth AI-driven analysis.
+- **Skill Assessment:** Generates adaptive, multiple-choice quizzes based on user skills and experience level.
+- **AI Feedback:** Delivers detailed, personalized insights into strengths and areas for growth.
+- **Personalized Learning Paths:** Recommends specific resources and learning plans to address skill gaps.
+- **Job Recommendations:** Uses real-time data to match users with relevant job postings.
 
-Personalized Learning Paths: Based on test results, the application suggests specific learning paths and resources to improve identified weaknesses.
+---
 
-Job Recommendations: Using the user's profile and skills, the platform recommends relevant job postings.
+## 🛠️ Tech Stack
 
-Prerequisites
-To run this project, you will need the following installed:
+- **Backend:** Python, FastAPI, Gemini AI (via langchain-google-genai)
+- **Frontend:** HTML, CSS, JavaScript (Single-Page Application)
+- **Job Data:** SerpApi
+- **Environment Management:** [uv](https://github.com/astral-sh/uv) (Python virtual environments and package management)
 
-Python 3.8+
+---
 
-uv: A fast Python package installer and virtual environment manager.
+## ⚡ Getting Started
 
-Installation
-This project uses uv for package management. Follow these steps to get the project running on your local machine.
+### Prerequisites
 
-Clone the repository:
+- Python 3.8 or newer
+- [uv](https://github.com/astral-sh/uv) installed
 
-git clone <repository_url>
-cd career-skill-quest
+### Installation
 
-Create a virtual environment with uv:
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/Ashisheoran/Career-Skill-Quest.git
+   cd Career-Skill-Quest
+   ```
 
-uv venv
-source .venv/bin/activate
+2. **Create and activate a virtual environment:**
+   ```sh
+   uv venv
+   source .venv/bin/activate
+   ```
 
-Install dependencies:
+3. **Install dependencies:**
+   ```sh
+   uv pip install -r requirements.txt
+   uv sync    # if pyproject.toml exist
+   ```
 
-uv pip install -r requirements.txt
+4. **Set up API keys:**
+   - Create a `.env` file in the root directory.
+   - Add your keys:
+     ```
+     GOOGLE_API_KEY="your_google_api_key"
+     SERPAPI_API_KEY="your_serpapi_api_key"
+     ```
 
-Set up API Keys:
-The project requires API keys for both Google Gemini and SerpApi to function correctly.
+---
 
-Create a .env file in the root directory of the project.
+## ▶️ Running the Application
 
-Add your API keys to the file in the following format:
+Start the FastAPI server with Uvicorn:
 
-GOOGLE_API_KEY="your_google_api_key"
-SERPAPI_API_KEY="your_serpapi_api_key"
-
-Running the Application
-After installation, you can run the FastAPI server to start the application.
-
-Start the server using uvicorn:
-
+```sh
 uvicorn main:app --reload
+```
 
-Access the application:
-Open your web browser and navigate to http://127.0.0.1:8000.
+Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
-Project Structure
-main.py: The FastAPI application entry point, defining the API endpoints for resume parsing, test generation, and job recommendations.
+---
 
-services/: A directory containing the core business logic.
+## 🗂️ Project Structure
 
-gemini_service.py: Handles interactions with the Gemini AI model.
+```
+Career-Skill-Quest/
+│
+├── main.py               # FastAPI entry point
+├── requirements.txt      # Python dependencies
+├── services/             # Core logic modules
+│   ├── gemini_service.py     # Gemini AI integration
+│   ├── job_recommender.py    # Job recommendation logic
+│   └── test_generator.py     # Skill test generation & evaluation
+├── models/               # Pydantic models for data validation
+├── static/               # Static files (CSS, JS)
+├── templates/            # HTML templates (SPA)
+└── .env                  # Your API keys (not tracked)
+```
 
-job_recommender.py: Fetches and recommends job postings.
+---
 
-test_generator.py: Creates skill assessment tests and evaluates submissions.
+## 🧩 Key Dependencies
 
-models/: Contains Pydantic models for data validation and structure.
+- `fastapi` – Lightning-fast API development
+- `pydantic` – Data validation and parsing
+- `uvicorn` – ASGI server for FastAPI
+- `python-dotenv` – Environment variable management
+- `langchain-google-genai` – Gemini AI integration
+- `serpapi` – Real-time job data fetching
 
-static/: Stores static assets like the style.css file.
+---
 
-templates/: Stores HTML templates, including the main index.html.
+## ✨ Contributing
 
-Dependencies
-The key Python packages used in this project are:
+Contributions, issues, and feature requests are welcome!  
+Please open an issue or submit a pull request.
 
-fastapi: A modern, fast web framework for building APIs.
+---
 
-pydantic: For data validation.
+## 📄 License
 
-uvicorn: An ASGI server for running the FastAPI application.
+This project is licensed under the [MIT License](LICENSE). 
+@Ashisheoran
 
-python-dotenv: To manage environment variables.
+---
 
-langchain-google-genai: To integrate with the Gemini API.
-
-serpapi: To fetch real-time job posting data.
+**Empowering your career with AI-driven insights, assessments, and opportunities!**
