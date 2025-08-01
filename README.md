@@ -11,64 +11,26 @@ Career Skill Quest is a modern, AI-powered platform designed to help users advan
 - **AI Feedback:** Delivers detailed, personalized insights into strengths and areas for growth.
 - **Personalized Learning Paths:** Recommends specific resources and learning plans to address skill gaps.
 - **Job Recommendations:** Uses real-time data to match users with relevant job postings.
+- **Modern, Responsive UI:** Clean and accessible interface with progress tracking and step-by-step forms
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Python, FastAPI, Gemini AI (via langchain-google-genai)
-- **Frontend:** HTML, CSS, JavaScript (Single-Page Application)
-- **Job Data:** SerpApi
 - **Environment Management:** [uv](https://github.com/astral-sh/uv) (Python virtual environments and package management)
 
----
+### Backend
+- **Python 3** (core logic & APIs)
+- **Pydantic** (data models)
+- **FastAPI** 
+- **LangChain, Gemini API** (AI/LLM integration via langchain-google-genai)
+- **Job Search:** SerpApi
+- **[PyMuPDF](https://pymupdf.readthedocs.io/), python-docx** (resume parsing)
 
-## ⚡ Getting Started
-
-### Prerequisites
-
-- Python 3.8 or newer
-- [uv](https://github.com/astral-sh/uv) installed
-
-### Installation
-
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/Ashisheoran/Career-Skill-Quest.git
-   cd Career-Skill-Quest
-   ```
-
-2. **Create and activate a virtual environment:**
-   ```sh
-   uv venv
-   .venv/Scripts/activate
-   ```
-
-3. **Install dependencies:**
-   ```sh
-   uv pip install -r requirements.txt
-   uv sync    # if pyproject.toml exist
-   ```
-
-4. **Set up API keys:**
-   - Create a `.env` file in the root directory.
-   - Add your keys:
-     ```
-     GOOGLE_API_KEY="your_google_api_key"
-     SERPAPI_API_KEY="your_serpapi_api_key"
-     ```
-
----
-
-## ▶️ Running the Application
-
-Start the FastAPI server with Uvicorn:
-
-```sh
-uvicorn main:app --reload
-```
-
-Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
+### Frontend
+- **HTML**
+- **CSS**
+- **JavaScript** (Single-Page Application)
 
 ---
 
@@ -102,10 +64,71 @@ Career-Skill-Quest/
 
 ---
 
+## ⚡ Getting Started
+
+### Prerequisites
+
+- Python 3.8 or newer
+- [uv](https://github.com/astral-sh/uv) installed
+
+### Installation
+
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/Ashisheoran/Career-Skill-Quest.git
+   cd Career-Skill-Quest
+   ```
+
+2. **Create and activate a virtual environment:**
+   ```sh
+   uv init
+   uv venv
+   .venv/Scripts/activate
+   ```
+
+3. **Install dependencies:**
+   ```sh
+   uv pip install -r requirements.txt
+   uv sync    # if pyproject.toml exist
+   ```
+
+4. **Set up API keys:**
+   - Create a `.env` file in the root directory.
+   - Add your keys:
+     ```
+     GOOGLE_API_KEY="your_google_api_key"
+     SERPAPI_API_KEY="your_serpapi_api_key"
+     ```
+
+---
+
+## ▶️ Running the Application
+
+Start the FastAPI server with Uvicorn:
+
+```sh
+uvicorn main:app --reload
+```
+
+Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
+
+---
+
 ## ✨ Contributing
 
 Contributions, issues, and feature requests are welcome!  
 Please open an issue or submit a pull request.
+
+1. Fork the repo and create your branch:
+   ```
+   git checkout -b feature/your-feature
+   ```
+2. Commit your changes and push:
+   ```
+   git commit -m "Describe your change"
+   git push origin feature/your-feature
+   ```
+3. Open a Pull Request on GitHub.
 
 ---
 
@@ -116,4 +139,15 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
+## 👏 Acknowledgements
+
+- Python, Pydantic, LangChain, SerpApi, Google Gemini, PyMuPDF, and the open source community.
+
+---
 **Empowering your career with AI-driven insights, assessments, and opportunities!**
+
+> *Explore, learn, and achieve your career goals with Career Skill Quest!*
+
+---
+
+*Note: For the full file and feature set, explore the [GitHub repository](https://github.com/Ashisheoran/Career-Skill-Quest).*
