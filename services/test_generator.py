@@ -1,9 +1,8 @@
-# test_generator.py
 import re
 from services.gemini_service import GeminiService
 from models.pydantic_models import TestQuestion, TestResult, LearningPath, LearningResource
 from typing import List, Dict, Any
-import json # Ensure json is imported for parsing
+import json
 
 class TestGenerator:
     def __init__(self, gemini_service: GeminiService):
@@ -16,8 +15,7 @@ class TestGenerator:
         Generates a skill assessment test based on provided skills and experience.
         """
         if not skills:
-            return [] # Return empty list if no skills provided
-
+            return []
         difficulty = "beginner"
         if experience_years >= 5:
             difficulty = "advanced"
@@ -27,10 +25,7 @@ class TestGenerator:
         skills_str = ", ".join(skills)
 
         if question_type == "mcq":
-            # Prompt Engineering for MCQ generation:
-            # - Clearly define the persona and task.
-            # - Emphasize accuracy, relevance, and distinct options.
-            # - Reinforce the JSON output format and schema.
+
             prompt = (
                 f"As an experienced technical interviewer and assessment creator, generate {num_questions} multiple-choice questions (MCQs) for a skill assessment test.\n"
                 f"The questions should rigorously test the candidate's understanding of the following skills: {skills_str}.\n"
@@ -65,10 +60,7 @@ class TestGenerator:
                 }
             }
         elif question_type == "coding":
-            # Prompt Engineering for Coding generation:
-            # - Emphasize clear problem statements and relevant examples.
-            # - Guide on providing a practical code template.
-            # - Reinforce the JSON output format and schema.
+ 
             prompt = (
                 f"As a senior software engineer and technical challenge designer, create {num_questions} coding challenge questions for a skill assessment test.\n"
                 f"The challenges should primarily focus on testing the candidate's practical application of the following skills: {skills_str}.\n"
@@ -99,7 +91,7 @@ class TestGenerator:
                         "code_template": {"type": "string"},
                         "expected_output_example": {"type": "string"}
                     },
-                    "required": ["question"] # Only question is strictly required for coding
+                    "required": ["question"] 
                 }
             }
         else:
@@ -131,7 +123,7 @@ class TestGenerator:
         correct_count = 0
         total_count = len(questions)
         feedback_details = []
-        weakness_topics = set() # To collect unique topics for weaknesses
+        weakness_topics = set() 
 
         for i, q in enumerate(questions):
             question_id = str(i)
@@ -145,7 +137,7 @@ class TestGenerator:
                 evaluation_prompt_parts.append(f"  Correct Answer: {q.correct_answer}\n")
                 evaluation_prompt_parts.append(f"  User's Answer: {user_answer}\n")
                 
-                # Simple check for correctness
+                # check for correctness
                 is_correct = user_answer.strip().lower() == q.correct_answer.strip().lower()
                 if is_correct:
                     correct_count += 1
@@ -153,10 +145,9 @@ class TestGenerator:
                 else:
                     feedback_details.append(f"Question {i+1} (MCQ): Incorrect. User answered '{user_answer}', correct was '{q.correct_answer}'. Review this topic.")
                     # Extract a topic from the question for weakness
-                    # Improved topic extraction: look for keywords or first few words
                     topic_match = re.search(r"What is (.*?)\?|Explain (.*?)|Describe (.*?)|How does (.*?) work", q.question, re.IGNORECASE)
                     topic = topic_match.group(1) or topic_match.group(2) or topic_match.group(3) or topic_match.group(4) if topic_match else q.question.split(' ')[0]
-                    if topic: # Only add if topic is not None/empty
+                    if topic: 
                          weakness_topics.add(topic.strip())
 
             else: # Coding/Short Answer
@@ -167,14 +158,15 @@ class TestGenerator:
                 # For coding questions, we can't auto-grade. We need the LLM to provide feedback.
                 # Indicate to the LLM that this is a coding question and requires more detailed analysis.
                 evaluation_prompt_parts.append(f"  (This is a coding/open-ended question. Please provide detailed feedback on the logic, correctness, and best practices. Identify key areas for improvement or commend strong solutions.)\n")
+                
                 # Add question text to weakness topics if specific feedback points to a gap
                 topic_match = re.search(r"Write a (.*?) function|Implement (.*?)|Solve (.*?) problem", q.question, re.IGNORECASE)
                 topic = topic_match.group(1) or topic_match.group(2) or topic_match.group(3) if topic_match else q.question.split(' ')[0]
-                if topic: # Only add if topic is not None/empty
+                if topic: 
                     weakness_topics.add(topic.strip())
 
 
-            evaluation_prompt_parts.append("\n") # Separator for clarity
+            evaluation_prompt_parts.append("\n") 
 
         evaluation_prompt_parts.append(f"--- End of Submission ---\n\n")
         evaluation_prompt_parts.append(f"Based on the above submission, provide the following in a structured JSON format:\n")
@@ -191,7 +183,6 @@ class TestGenerator:
 
         evaluation_prompt_parts.append(f"Ensure the JSON output strictly follows the `TestResult` Pydantic model structure, including all nested objects and arrays. Your response should contain ONLY the JSON.\n")
         
-        # Define the schema expected from Gemini based on the TestResult Pydantic model
         schema = {
             "type": "object",
             "properties": {
@@ -250,16 +241,14 @@ class TestGenerator:
 
         try:
             raw_results = await self.gemini_service.generate_structured_response(full_prompt, schema)
-            # Ensure raw_results is a dictionary before passing to TestResult
+
             if not isinstance(raw_results, dict):
-                # Attempt to parse if it's a string that looks like JSON
                 try:
                     raw_results = json.loads(raw_results)
                 except json.JSONDecodeError:
                     raise ValueError(f"Gemini response was not a valid JSON dictionary: {raw_results}")
             
-            # Map simple calculated strengths/weaknesses if Gemini doesn't provide them initially
-            # or refine based on Gemini's output
+            
             if not raw_results.get("strengths"):
                 raw_results["strengths"] = [f"Answered {correct_count} out of {total_count} questions correctly."]
             
