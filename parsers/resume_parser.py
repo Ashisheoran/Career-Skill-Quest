@@ -1,4 +1,3 @@
-# resume_parser.py
 import fitz  # PyMuPDF
 from docx import Document
 import re
@@ -49,11 +48,10 @@ def parse_resume(file_content: bytes, file_type: str) -> ResumeData:
     skills = []
     experience_years = 0
 
-    # Name: Often at the top, can be difficult to reliably extract without NLP
     lines = text.split('\n')
     if lines:
         # Heuristic: Prioritize lines with multiple capitalized words, then fall back to first non-empty line
-        for line in lines[:5]: # Check first few lines
+        for line in lines[:5]: 
             if line.strip() and len(line.strip().split()) > 1 and all(word.istitle() or not word.isalpha() for word in line.strip().split()):
                 name = line.strip()
                 break
