@@ -41,7 +41,7 @@ Career Skill Quest is a modern, AI-powered platform designed to help users advan
 2. **Create and activate a virtual environment:**
    ```sh
    uv venv
-   source .venv/bin/activate
+   .venv/Scripts/activate
    ```
 
 3. **Install dependencies:**
