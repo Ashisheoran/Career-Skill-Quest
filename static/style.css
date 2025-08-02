@@ -90,6 +90,12 @@ h3 {
     margin-bottom: 25px;
 }
 
+#test-taking-section {
+    max-height: 2000px;  
+    overflow-y: auto;   
+    padding-right: 8px; 
+}
+
 .section.hidden {
     display: none; /* For immediate hiding */
 }
