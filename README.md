@@ -46,16 +46,29 @@ Career Skill Quest is a modern, AI-powered platform designed to help users advan
 ```
 Career-Skill-Quest/
 │
-├── main.py               # FastAPI entry point
+├── main.py               # FastAPI entry point for backend API
 ├── requirements.txt      # Python dependencies
-├── services/             # Core logic modules
-│   ├── gemini_service.py     # Gemini AI integration
-│   ├── job_recommender.py    # Job recommendation logic
+├── .env                  # Environment secrets (not tracked in Git)
+│
+├── services/             # Core backend modules
+│   ├── gemini_service.py     # Gemini AI integration logic
+│   ├── job_recommender.py    # Job recommendation engine
 │   └── test_generator.py     # Skill test generation & evaluation
+│
 ├── models/               # Pydantic models for data validation
-├── static/               # Static files (CSS, JS)
-├── templates/            # HTML templates (SPA)
-└── .env                  # Your API keys (not tracked)
+│
+├── static/               # Static frontend files
+│   ├── app.js                # Main JavaScript for SPA
+│   ├── style.css             # Main CSS
+│   └── ...                   # Other static assets
+│
+├── templates/            # HTML templates (Single-Page Application)
+│   ├── index.html            # Main frontend template
+│   └── ...                   # Other HTML files (if any)
+│
+├── images/               # Project screenshots and visuals
+├── README.md             # Project documentation
+└── LICENSE               # Project license (MIT)
 ```
 
 ---
