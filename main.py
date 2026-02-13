@@ -33,9 +33,10 @@ google_api_key = os.getenv("GOOGLE_API_KEY")
 if not google_api_key:
     raise ValueError("GOOGLE_API_KEY environment variable not set. Please set it in your .env file.")
 
-serpapi_api_key = os.getenv("SERPAPI_API_KEY")
-if not serpapi_api_key:
-    raise ValueError("SERPAPI_API_KEY environment variable not set. Please set it in your .env file.")
+SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
+if not SERPAPI_API_KEY:
+    print("Warning: SERPAPI_API_KEY not set. Job search disabled.")
+
 
 gemini_service = GeminiService(api_key=google_api_key)
 test_generator = TestGenerator(gemini_service=gemini_service)
