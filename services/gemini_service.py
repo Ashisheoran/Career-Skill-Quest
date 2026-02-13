@@ -5,9 +5,25 @@ from langchain_core.output_parsers import StrOutputParser
 import json
 from typing import List, Dict, Any
 
+def clean_json(text: str) -> str:
+    text = text.strip()
+
+    # remove markdown fences
+    text = re.sub(r"```(?:json)?", "", text)
+    text = text.replace("```", "")
+
+    # remove trailing commas
+    text = re.sub(r",\s*([}\]])", r"\1", text)
+
+    return text
+
 class GeminiService:
     def __init__(self, api_key: str):
-        self.llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=api_key )
+        self.llm = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash",
+            google_api_key=api_key,
+            temperature=0.2  # lower randomness = cleaner JSON
+        )
         self.output_parser = StrOutputParser()
 
     async def generate_text(self, prompt: str) -> str:
@@ -34,20 +50,22 @@ class GeminiService:
             f"```json\n{json.dumps(schema, indent=2)}\n```\n"
             f"Ensure your response contains ONLY the JSON object/array and no other text or explanations."
         )
+        response_content = await self.generate_text(full_prompt)
+        json_match = re.search(r"```(?:json)?\s*(.*?)\s*```", response_content, re.DOTALL)
+        
+        if json_match:
+            json_string = json_match.group(1).strip()
+        else:
+            json_string = response_content.strip()
+        
+        json_string = clean_json(json_string)
+        
         try:
-            response_content = await self.generate_text(full_prompt)
-            # Attempt to parse content. Gemini sometimes wraps JSON in markdown.
-            json_match = re.search(r"```json\s*(.*?)\s*```", response_content, re.DOTALL)
-            if json_match:
-                json_string = json_match.group(1).strip()
-            else:
-                json_string = response_content.strip() # Assume it's just JSON if no markdown block
-
             return json.loads(json_string)
-        except json.JSONDecodeError as e:
-            print(f"Failed to parse JSON response from Gemini: {e}")
-            print(f"Raw response content: {response_content}")
-            raise ValueError(f"Could not parse structured response. Invalid JSON: {e}")
-        except Exception as e:
-            print(f"Error generating structured response with Gemini: {e}")
-            raise
+        except json.JSONDecodeError:
+            # retry cleanup once
+            json_string = clean_json(json_string)
+            return json.loads(json_string)
+
+
+
