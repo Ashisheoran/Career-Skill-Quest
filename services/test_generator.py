@@ -9,7 +9,7 @@ class TestGenerator:
         self.gemini_service = gemini_service
 
     async def generate_test(
-        self, skills: List[str], experience_years: int, num_questions: int = 5, question_type: str = "mcq"
+        self, skills: List[str], experience_years: int, num_questions: int = 4, question_type: str = "mcq"
     ) -> List[TestQuestion]:
         """
         Generates a skill assessment test based on provided skills and experience.
@@ -31,7 +31,6 @@ class TestGenerator:
                 f"The questions should rigorously test the candidate's understanding of the following skills: {skills_str}.\n"
                 f"The difficulty level for these questions must be strictly {difficulty}. Ensure questions are challenging but fair for this level.\n"
                 f"Each question must have exactly 4 distinct options (A, B, C, D), and only one correct answer. Options should be plausible but clearly distinguishable.\n"
-                f"Ensure the questions are diverse and cover different aspects or sub-topics within the provided skills, rather than focusing on a single narrow area.\n"
                 f"Format the entire output as a single JSON array of objects. Each object must strictly adhere to the following structure:\n"
                 f"{{\n"
                 f"  \"question\": \"[Your question text here]\",\n"
@@ -66,7 +65,6 @@ class TestGenerator:
                 f"The challenges should primarily focus on testing the candidate's practical application of the following skills: {skills_str}.\n"
                 f"The difficulty level of these coding challenges must be strictly {difficulty}. The problems should be solvable within a reasonable time by a candidate at this experience level.\n"
                 f"For each question, provide a concise and clear problem description, at least one concrete input/output example to illustrate the expected behavior, and an optional, basic function signature or code template to get them started.\n"
-                f"Ensure the coding questions are diverse in their approach and cover common algorithms, data structures, or practical programming paradigms relevant to the skills.\n"
                 f"Format the entire output as a single JSON array of objects. Each object must strictly adhere to the following structure:\n"
                 f"{{\n"
                 f"  \"question\": \"[Problem description here]\",\n"
@@ -99,11 +97,26 @@ class TestGenerator:
 
         try:
             raw_questions = await self.gemini_service.generate_structured_response(prompt, schema)
+
+        except Exception as e:
+            print(f"First attempt failed: {e}")
+            try:
+                raw_questions = await self.gemini_service.generate_structured_response(prompt, schema)
+            except Exception as e2:
+                print(f"Second attempt failed: {e2}")
+                return []
+
+        
+        try:
+            if not raw_questions:
+                return []
             questions = [TestQuestion(**q) for q in raw_questions]
             return questions
         except Exception as e:
-            print(f"Failed to generate test questions: {e}")
-            raise
+            print(f"Parsing failed: {e}")
+            return []
+
+
 
     async def evaluate_test(
         self, questions: List[TestQuestion], answers: Dict[str, str]
@@ -244,7 +257,9 @@ class TestGenerator:
 
             if not isinstance(raw_results, dict):
                 try:
-                    raw_results = json.loads(raw_results)
+                    from services.gemini_service import clean_json
+                    raw_results = json.loads(clean_json(raw_results))
+
                 except json.JSONDecodeError:
                     raise ValueError(f"Gemini response was not a valid JSON dictionary: {raw_results}")
             
@@ -261,4 +276,11 @@ class TestGenerator:
             return test_result
         except Exception as e:
             print(f"Failed to evaluate test or parse Gemini response: {e}")
-            raise   
+            return TestResult(
+                overall_feedback="Temporary AI issue. Please retry.",
+                strengths=[],
+                weaknesses=["AI response error"],
+                detailed_feedback=[],
+                general_learning_resources=[],
+                specific_learning_paths=[]
+            )   
