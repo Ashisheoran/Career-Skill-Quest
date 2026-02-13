@@ -4,6 +4,11 @@ Career Skill Quest is a modern, AI-powered platform designed to help users advan
 
 ---
 
+🌐 **Live Demo:** https://career-skill-quest.onrender.com  
+📚 **API Docs:** https://career-skill-quest.onrender.com/docs 
+
+---
+
 ## 🚀 Features
 
 - **Resume Analysis:** Users input their skills, experience, and education for in-depth AI-driven analysis.
@@ -11,11 +16,11 @@ Career Skill Quest is a modern, AI-powered platform designed to help users advan
 - **AI Feedback:** Delivers detailed, personalized insights into strengths and areas for growth.
 - **Personalized Learning Paths:** Recommends specific resources and learning plans to address skill gaps.
 - **Job Recommendations:** Uses real-time data to match users with relevant job postings.
-- **Modern, Responsive UI:** Clean and accessible interface with progress tracking and step-by-step forms
+- **Modern, Responsive SPA UI with progressive form flow:** Clean and accessible interface with progress tracking and step-by-step forms
 
 ---
 
-## View ScreenShots of Project 
+## 📸 Screenshots
 
 [View the images directory](https://github.com/Ashisheoran/Career-Skill-Quest/tree/main/images)
 
@@ -23,8 +28,9 @@ Career Skill Quest is a modern, AI-powered platform designed to help users advan
 ---
 
 ## 🛠️ Tech Stack
-
-- **Environment Management:** [uv](https://github.com/astral-sh/uv) (Python virtual environments and package management)
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![Render](https://img.shields.io/badge/Deployed-Render-purple)
 
 ### Backend
 - **Python 3** (core logic & APIs)
@@ -39,6 +45,10 @@ Career Skill Quest is a modern, AI-powered platform designed to help users advan
 - **CSS**
 - **JavaScript** (Single-Page Application)
 
+### Tools & Environment
+- **uv** – Environment and dependency management
+- **Uvicorn** – ASGI server
+- **Render** – Deployment & Hosting
 ---
 
 ## 🗂️ Project Structure
@@ -48,6 +58,7 @@ Career-Skill-Quest/
 │
 ├── main.py               # FastAPI entry point for backend API
 ├── requirements.txt      # Python dependencies
+├── start.sh              # Render start script
 ├── .env                  # Environment secrets (not tracked in Git)
 │
 ├── services/             # Core backend modules
@@ -149,6 +160,17 @@ Please open an issue or submit a pull request.
    git push origin feature/your-feature
    ```
 3. Open a Pull Request on GitHub.
+
+---
+
+## 🔮 Future Improvements
+
+- User authentication & profiles
+- Skill progress analytics dashboard
+- Multiple AI model support
+- More job data sources
+- Mobile-first UI design
+- Resume upload UI for PDF/DOCX
 
 ---
 
